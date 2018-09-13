@@ -1,5 +1,6 @@
-#include <bits/stdc++.h>;
+#include <bits/stdc++.h>
 using namespace std;
+
 
 // ~~~ NODE ~~~
 struct node {
@@ -11,14 +12,14 @@ struct node {
     node(string nome, int id): nome(nome), id(id), next(nullptr) {}
 };
 
-// ~~~ FILA ~~~
-struct fila {
+// ~~~ GAVETA ~~~
+struct gaveta {
     node *front;
     node *rear;
     int tam;
 
-    // CONSTRUTOR DA FILA
-    fila (): front(nullptr), rear(nullptr), tam(0) {}
+    // CONSTRUTOR DA GAVETA
+    gaveta (): front(nullptr), rear(nullptr), tam(0) {}
 
     void add (string nome, int id){
         node *aux = new node (nome, id);
@@ -29,23 +30,28 @@ struct fila {
             this->front = aux;
             this->rear = aux;
         }
+        tam++;
     }
 
-    node* remove (){
+    int procurar (string nome){
         node *aux = this->front;
-        if (this->front){
-            this->front = this->front->next;
+        int cont = 0;
+        while (aux->next){
+            if (aux->nome.compare(nome)==0){
+                return cont;
+            }
         }
-        tam--;
-        return aux;
+        return -1;
+    }
+
+    int acessoTam (){
+        return this->tam;
     }
 };
 
-// ~~~ METODOS DA QUESTAO ~~~
-
-int buscaBinaria (int ids[], int idProcurado){
+int buscaBinaria (int ids[], int quantArquivos, int idProcurado){
     int iniAux = 0;
-    int fimAux = (sizeof(ids)/sizeof(int))-1;
+    int fimAux = quantArquivos-1;
     while (iniAux<=fimAux){
         int posMeio = (iniAux+fimAux)/2;
         if (idProcurado == ids[posMeio]){
@@ -59,56 +65,57 @@ int buscaBinaria (int ids[], int idProcurado){
     return -1;
 }
 
-int dispersao (int chave, int quantGavetas){
+int dispersao (string nome, int quantGavetas){
+    int chave = 0;
+    for (int i=0; i<nome.length(); i++){
+        char letrinha = nome[i];
+        chave+=(i*letrinha);
+    }
     return (chave%quantGavetas);
 }
 
-int obterChave (string nome){
-    int chave = 0;
-    for (int i=0; i<nome.length(); i++){
-        chave+=(i*nome[i]);
-    }
-    return chave;
-}
-
 int main (){
+    int quantArquivos;
+    cin >> quantArquivos;
 
-    // ~~~ LEITURA DOS ARQUIVOS LA NO INICIO ~~~
-    int quantArquivosInicial;
-    cin >> quantArquivosInicial;
-
-    string arquivosInicioNome [quantArquivosInicial];
-    int arquivosInicioId [quantArquivosInicial];
-    for (int i=0; i<quantArquivosInicial; i++){
+    string arquivosIniciaisNomes [quantArquivos];
+    int arquivosIniciaisIds [quantArquivos];
+    for (int i=0; i<quantArquivos; i++){
         string nome;
+        cin >> nome;
+        arquivosIniciaisNomes[i] = nome;
         int id;
-        cin >> nome >> id;
-        arquivosInicioNome[i] = nome;
-        arquivosInicioId[i] = id;
+        cin >> id;
+        arquivosIniciaisIds[i] = id;
     }
 
-    int quantGavetas, quantArquivosSeraoTransf;
+    int quantGavetas;
     cin >> quantGavetas;
-    cin >> quantArquivosSeraoTransf;
-    fila gavetas [quantGavetas];
-    for (int i=0; i<quantArquivosSeraoTransf; i++){
+
+    gaveta gavetas[quantGavetas];
+
+    int quantArqTransf;
+    cin >> quantArqTransf;
+    for (int i=0; i<quantArqTransf; i++){
         int idProcurado;
         cin >> idProcurado;
-        int posArqTransf = buscaBinaria(arquivosInicioId, idProcurado);
-        cout << posArqTransf;
-        gavetas[dispersao(obterChave(arquivosInicioNome[posArqTransf]),quantGavetas)].add(arquivosInicioNome[posArqTransf], arquivosInicioId[posArqTransf]);
+        int posEncontrada = buscaBinaria(arquivosIniciaisIds, quantArquivos, idProcurado);
+        int posGavetas = dispersao(arquivosIniciaisNomes[posEncontrada], quantGavetas);
+        gavetas[posGavetas].add(arquivosIniciaisNomes[posEncontrada], idProcurado);
     }
 
-    // IMPRIMIR QUANTOS ARQUIVOS TEM EM CADA GAVETA
     for (int i=0; i<quantGavetas; i++){
-        cout << i << ": " << gavetas[i].tam << endl;
+        cout << i << ": " << gavetas[i].acessoTam() << endl;
+
     }
 
-    // ANALISE DA EFICIENCIA, OU SEJE, DE CATAR OS ARQUIVOS
-    int quantArquivosConsult;
-    cin >> quantArquivosConsult;
-
-
+    int quantArqConsult;
+    cin >> quantArqConsult;
+    for (int i=0; i<quantArqConsult; i++){
+        string nomeProcurado;
+        cin >> nomeProcurado;
+        cout << i << ": " << gavetas[dispersao(nomeProcurado, quantGavetas)].procurar(nomeProcurado) << endl;
+    }
 
     return 0;
 }
