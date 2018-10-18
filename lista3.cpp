@@ -1,5 +1,7 @@
-#include <bits/stdc++.h>
+/* RMQ
+ https://iudex.io/problem/5ba2fa7bfcc38200012023d4/statement */
 
+#include <bits/stdc++.h>
 using namespace std;
 
 struct arvre {
