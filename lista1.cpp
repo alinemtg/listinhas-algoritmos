@@ -1,3 +1,6 @@
+/* Mutirão
+ https://iudex.io/problem/5b7d976ee588f50001a602c8/statement */
+
 #include <bits/stdc++.h>
 using namespace std;
 
