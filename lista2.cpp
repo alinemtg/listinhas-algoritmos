@@ -1,6 +1,8 @@
+/* Organizando os arquivos
+ https://iudex.io/problem/5b91a3b3fcc3820001202248/statement */
+
 #include <bits/stdc++.h>
 using namespace std;
-
 
 // ~~~ NODE ~~~
 struct node {
