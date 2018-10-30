@@ -1,3 +1,6 @@
+/* aMAZEing!
+ https://iudex.io/problem/5bcc95305cd44b0001fdbf74/statement */
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -57,8 +60,8 @@ int main() {
                 celula1 = tamLabirinto*(parede/aux) + parede%aux;
                 celula2 = celula1 + 1;
             }else{
-                celula1 = tamLabirinto*(parede/aux) + parede%aux - 1;
-                celula2 = celula1 + tamLabirinto;
+                celula1 = tamLabirinto*(parede/aux) + parede%aux + 1;
+                celula2 = celula1 - tamLabirinto;
             }
             unionn (celula1, celula2, celulas);
             celulas[celula1] = find (celula1, celulas);
@@ -69,14 +72,13 @@ int main() {
             int celula1, celula2;
             cin >> celula1 >> celula2;
 
-            if (celulas[celula1] == celulas[celula2]) {
+            if (find (celula1, celulas) == find(celula2, celulas)) {
                 cout << l << "." << d << " " << 1 << endl;
             } else {
                 cout << l << "." << d << " " << 0 << endl;
             }
         }
-
-        if (l != quantLabirintos-1)
-            cout << "\n" << endl;
+        
+        cout << "\n";
     }
 }
