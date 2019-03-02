@@ -1,7 +1,6 @@
 /* T&TA
  https://iudex.io/problem/5be0f9165cd44b0001fdc002/statement */
 
-
 #include <bits/stdc++.h>
 using namespace std;
 
